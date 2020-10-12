@@ -1,5 +1,5 @@
-// Exp_Receiver.cpp : Defines the entry point for the application.
-//ĞÅÏ¢Í¨Ñ¶ÍøÂç»ù´¡¿Î³Ì£¬ÀíÏëĞÅµÀµÄÊı¾İÁ´Â·²ãĞ­Òé£¬½ÓÊÕ¶Ë³ÌĞò 2020.3
+
+//ç†æƒ³ä¿¡é“çš„æ•°æ®é“¾è·¯å±‚åè®®ï¼Œæ¥æ”¶ç«¯ç¨‹åº 
 
 #include "stdafx.h"
 //VC 6.0   add  WSOCK32.LIB in Project -> Settings... ->  Link
@@ -12,15 +12,15 @@
 using namespace std;
 
 void wlc(BYTE Fram);
-//°´Å¥
+//æŒ‰é’®
 #define BTN_Quit 501
 #define BTN_Reset 502
-//µ¥ĞĞ±à¼­¿ò
+//å•è¡Œç¼–è¾‘æ¡†
 #define EDIT_Receiver 601
-//¶àĞĞÎÄ±¾¿ò
+//å¤šè¡Œæ–‡æœ¬æ¡†
 #define INFOWin1 801
 #define INFOWin2 802
-//¾²Ì¬ÎÄ±¾
+//é™æ€æ–‡æœ¬
 #define STATIC_W1 701
 #define STATIC_W2 702
 //--------------------------------------------------------------
@@ -29,19 +29,19 @@ SOCKET Cs1,Cs2;
 struct sockaddr_in Cs1A,Cs2A;
 char DataB[200];
 int d,i;
-#define Cs2Port 7100		//Ô¶³Ì¶Ë¿Ú(¶ÔÓ¦ÓÚÄ£ÄâÍ¨µÀ³ÌĞòÖĞµÄ±¾µØ¶Ë¿Ú)
-#define Cs1Port 8100		//±¾µØ¶Ë¿Ú(¶ÔÓ¦ÓÚÄ£ÄâÍ¨µÀ³ÌĞòÖĞµÄBÕ¾¶Ë¿Ú)
-#define Cs1IP   "127.0.0.1"	//±¾µØIPÍøÖ·(127.0.0.1Îª±¾µØ»·Â·)
-#define Cs2IP   "127.0.0.1"	//Ô¶³ÌIPÍøÖ·(127.0.0.1Îª±¾µØ»·Â·)
+#define Cs2Port 7100		//è¿œç¨‹ç«¯å£(å¯¹åº”äºæ¨¡æ‹Ÿé€šé“ç¨‹åºä¸­çš„æœ¬åœ°ç«¯å£)
+#define Cs1Port 8100		//æœ¬åœ°ç«¯å£(å¯¹åº”äºæ¨¡æ‹Ÿé€šé“ç¨‹åºä¸­çš„Bç«™ç«¯å£)
+#define Cs1IP   "127.0.0.1"	//æœ¬åœ°IPç½‘å€(127.0.0.1ä¸ºæœ¬åœ°ç¯è·¯)
+#define Cs2IP   "127.0.0.1"	//è¿œç¨‹IPç½‘å€(127.0.0.1ä¸ºæœ¬åœ°ç¯è·¯)
 
 
-char DisplayStringBuffer[5000];//ÏÔÊ¾»º³åÇø
+char DisplayStringBuffer[5000];//æ˜¾ç¤ºç¼“å†²åŒº
 //--------------------------------------------------------------
 // Global Variables:
 HINSTANCE hInst;						// current instance
-LRESULT CALLBACK	WndProc(HWND, UINT, WPARAM, LPARAM);//»Øµ÷º¯Êı
+LRESULT CALLBACK	WndProc(HWND, UINT, WPARAM, LPARAM);//å›è°ƒå‡½æ•°
 //--------------------------------------------------------------
-//Ö÷º¯Êı
+//ä¸»å‡½æ•°
 int APIENTRY WinMain(HINSTANCE hInstance,
                      HINSTANCE hPrevInstance,
                      LPSTR     lpCmdLine,
@@ -53,9 +53,9 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 	char TempChar[80];
 	char TempChar1[80];
 	itoa(Cs1Port,TempChar,10);
-	TempString = "½ÓÊÕ¶Ë[¶Ë¿Ú:";
+	TempString = "æ¥æ”¶ç«¯[ç«¯å£:";
 	TempString += TempChar;
-	TempString += "]£­ÀíÏëĞÅµÀ\0";
+	TempString += "]ï¼ç†æƒ³ä¿¡é“\0";
 	
 	HWND hWnd;
 	hInst = hInstance; // Store instance handle in our global variable
@@ -91,7 +91,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 }
 
 //--------------------------------------------------------------
-//¾²Ì¬ÎÄ±¾
+//é™æ€æ–‡æœ¬
 HWND CreateStatic(char *Titel,int x0,int y0,int w,int h,int ID,HWND hW,HINSTANCE hInst)
 {
 	return CreateWindowEx(WS_EX_PALETTEWINDOW,"STATIC",Titel,
@@ -100,7 +100,7 @@ HWND CreateStatic(char *Titel,int x0,int y0,int w,int h,int ID,HWND hW,HINSTANCE
 }
 
 //--------------------------------------------------------------
-//°´Å¥
+//æŒ‰é’®
 HWND CreateButton(char *Titel,int x0,int y0,int w,int h,int ID,HWND hW,HINSTANCE hInst)
 {
 	return CreateWindowEx(WS_EX_PALETTEWINDOW,"BUTTON",Titel,
@@ -108,7 +108,7 @@ HWND CreateButton(char *Titel,int x0,int y0,int w,int h,int ID,HWND hW,HINSTANCE
 		x0,y0,w,h, hW,(HMENU)ID,hInst,NULL);
 }
 //--------------------------------------------------------------
-//µ¥ĞĞ±à¼­¿ò
+//å•è¡Œç¼–è¾‘æ¡†
 HWND CreateEdit(char *Titel,int x0,int y0,int w,int h,int ID,HWND hW,HINSTANCE hInst)
 {
 	return CreateWindowEx(WS_EX_CLIENTEDGE,"EDIT",Titel,
@@ -118,7 +118,7 @@ HWND CreateEdit(char *Titel,int x0,int y0,int w,int h,int ID,HWND hW,HINSTANCE h
 		(HMENU)ID,hInst,NULL);
 }
 //--------------------------------------------------------------
-//¶àĞĞÎÄ±¾¿ò
+//å¤šè¡Œæ–‡æœ¬æ¡†
 HWND CreateMemo(char *Titel,int x0,int y0,int w,int h,int ID,HWND hW,HINSTANCE hInst)
 {
 	return CreateWindowEx(WS_EX_CLIENTEDGE,"EDIT",Titel,
@@ -129,13 +129,13 @@ HWND CreateMemo(char *Titel,int x0,int y0,int w,int h,int ID,HWND hW,HINSTANCE h
 		hW,(HMENU)ID,hInst,NULL);
 }
 //---------------------------------------------------------------------------
-//Ìí¼Ó¿Ø¼şÎÄ±¾
+//æ·»åŠ æ§ä»¶æ–‡æœ¬
 void Puts(HWND hW,int ID_EDIT,char *str)
 {	
 	GetDlgItemText(hW,ID_EDIT,DisplayStringBuffer,sizeof(DisplayStringBuffer));
 	if (strlen(DisplayStringBuffer) > 4900)
 	{
-		//MessageBox(0,"ÏÔÊ¾»º³åÇøÒç³ö£¡","ÏÔÊ¾»º³åÇø",0);
+		//MessageBox(0,"æ˜¾ç¤ºç¼“å†²åŒºæº¢å‡ºï¼","æ˜¾ç¤ºç¼“å†²åŒº",0);
 		strcpy(DisplayStringBuffer,"  \r\n");
 	}
 	strcat(DisplayStringBuffer,"\r\n");
@@ -145,13 +145,13 @@ void Puts(HWND hW,int ID_EDIT,char *str)
 }
 //---------------------------------------------------------------------------
 
-//ÒÔÉÏ²»Ğè¸Ä¶¯!
+//ä»¥ä¸Šä¸éœ€æ”¹åŠ¨!
 //--------------------------------------------------------------
-//Äã¿ÉÒÔÔÚÕâÀï¶¨Òå±äÁ¿
-//void PhysicalLayerSend(BYTE c);	//ÎïÀí²ã£º·¢ËÍÒ»¸ö×Ö½Ú
-//BYTE PhysicalLayerReceive();	//ÎïÀí²ã£º½ÓÊÕÒ»¸ö×Ö½Ú
-void PhysicalLayerSend(char* FrameData, int Length);	//ÎïÀí²ã£º·¢ËÍÒ»Ö¡±¨ÎÄ
-int PhysicalLayerReceive(char* FrameData);	//ÎïÀí²ã£º½ÓÊÕÒ»Ö¡±¨ÎÄ£¬·µ»ØÊı¾İ³¤¶È
+//ä½ å¯ä»¥åœ¨è¿™é‡Œå®šä¹‰å˜é‡
+//void PhysicalLayerSend(BYTE c);	//ç‰©ç†å±‚ï¼šå‘é€ä¸€ä¸ªå­—èŠ‚
+//BYTE PhysicalLayerReceive();	//ç‰©ç†å±‚ï¼šæ¥æ”¶ä¸€ä¸ªå­—èŠ‚
+void PhysicalLayerSend(char* FrameData, int Length);	//ç‰©ç†å±‚ï¼šå‘é€ä¸€å¸§æŠ¥æ–‡
+int PhysicalLayerReceive(char* FrameData);	//ç‰©ç†å±‚ï¼šæ¥æ”¶ä¸€å¸§æŠ¥æ–‡ï¼Œè¿”å›æ•°æ®é•¿åº¦
 char Buffer[6];
 int cnt1=0,cnt2=0;
 bool Parity_Check(char *data){
@@ -165,84 +165,84 @@ bool Parity_Check(char *data){
 	else return 0;
 }
 //--------------------------------------------------------------
-//ÏûÏ¢´¦Àí
+//æ¶ˆæ¯å¤„ç†
 LRESULT CALLBACK WndProc(HWND hW, UINT msg, WPARAM wP, LPARAM lP)
 {
 	switch (msg)
 	{
-	case WM_DESTROY://´°¿Ú¹Ø±ÕÊ±µÄÏûÏ¢´¦Àí
+	case WM_DESTROY://çª—å£å…³é—­æ—¶çš„æ¶ˆæ¯å¤„ç†
 		WSAAsyncSelect(Cs1, hW, 0, 0);
 		closesocket(Cs1);
 		WSACleanup( );
 		PostQuitMessage(0);
 		break;
-	case WM_CREATE://´°¿Ú´´½¨Ê±µÄÏûÏ¢´¦Àí
-		WSAStartup(0x0101,&wsData);//ÍøÂç³õÊ¼»¯
+	case WM_CREATE://çª—å£åˆ›å»ºæ—¶çš„æ¶ˆæ¯å¤„ç†
+		WSAStartup(0x0101,&wsData);//ç½‘ç»œåˆå§‹åŒ–
 		Cs1=socket(AF_INET, SOCK_DGRAM,0);
 		Cs1A.sin_family=AF_INET;
 		Cs1A.sin_port = htons(Cs1Port);
-//		Cs1A.sin_addr.s_addr =INADDR_ANY;//ÔÚ±¾»úÉèÖÃµÄÍøÖ·(¿ÉÄÜ¶à¸ö)ÖĞ£¬¶¼ÓĞĞ§¡£
+//		Cs1A.sin_addr.s_addr =INADDR_ANY;//åœ¨æœ¬æœºè®¾ç½®çš„ç½‘å€(å¯èƒ½å¤šä¸ª)ä¸­ï¼Œéƒ½æœ‰æ•ˆã€‚
 		Cs1A.sin_addr.s_addr =inet_addr(Cs1IP);
 		d=bind(Cs1,(struct sockaddr *) &Cs1A,sizeof(Cs1A));
-		if(d==-1)//bindº¯Êıµ÷ÓÃÊ§°Ü
+		if(d==-1)//bindå‡½æ•°è°ƒç”¨å¤±è´¥
 		{
-			MessageBox(0,"¶Ë¿Ú·¢Éú³åÍ»","ĞÅµÀÄ£Äâ",0);
+			MessageBox(0,"ç«¯å£å‘ç”Ÿå†²çª","ä¿¡é“æ¨¡æ‹Ÿ",0);
 			PostQuitMessage(0);
 		};
 		Cs2A.sin_family=AF_INET;
 		Cs2A.sin_port = htons(Cs2Port);
 		Cs2A.sin_addr.s_addr =inet_addr(Cs2IP);
 		WSAAsyncSelect(Cs1,hW,WM_USER+212,FD_READ);
-		Beep(2000,100);//ÏìÁåÌáÊ¾´¦Àí
+		Beep(2000,100);//å“é“ƒæç¤ºå¤„ç†
 
-		CreateEdit("½ÓÊÕ¶Ë",2,2,130,20,EDIT_Receiver,hW,hInst);
-		CreateButton("ÍË³ö", 140,2,50,24,BTN_Quit,hW,hInst);
-		CreateButton("¸´Î»",200,2,50,24,BTN_Reset,hW,hInst);
-		CreateStatic("ÎïÀí²ãÊÕµ½µÄĞÅÏ¢:",0,35,150,24,STATIC_W1,hW,hInst);
-		CreateStatic("ÉÏ½»ÍøÂç²ãµÄĞÅÏ¢:",160,35,150,24,STATIC_W2,hW,hInst);
+		CreateEdit("æ¥æ”¶ç«¯",2,2,130,20,EDIT_Receiver,hW,hInst);
+		CreateButton("é€€å‡º", 140,2,50,24,BTN_Quit,hW,hInst);
+		CreateButton("å¤ä½",200,2,50,24,BTN_Reset,hW,hInst);
+		CreateStatic("ç‰©ç†å±‚æ”¶åˆ°çš„ä¿¡æ¯:",0,35,150,24,STATIC_W1,hW,hInst);
+		CreateStatic("ä¸Šäº¤ç½‘ç»œå±‚çš„ä¿¡æ¯:",160,35,150,24,STATIC_W2,hW,hInst);
 		CreateMemo(" ",0,55,150,220,INFOWin1,hW,hInst);
 		CreateMemo(" ",160,55,150,220,INFOWin2,hW,hInst);
 
 		break;
 //============================================================================
-//½ÓÊÕÏûÏ¢ÊÂ¼ş£º
-//Äã¿ÉÒÔÔÚÕâÀïÌí¼ÓºÍ±àĞ´´úÂë£º
+//æ¥æ”¶æ¶ˆæ¯äº‹ä»¶ï¼š
+//ä½ å¯ä»¥åœ¨è¿™é‡Œæ·»åŠ å’Œç¼–å†™ä»£ç ï¼š
 	case WM_USER+212:
 		switch(LOWORD(lP))
 		{
-		case FD_READ://ÍøÂçÊı¾İ½ÓÊÕÏûÏ¢´¦Àí
+		case FD_READ://ç½‘ç»œæ•°æ®æ¥æ”¶æ¶ˆæ¯å¤„ç†
 			//*****************************************************************************
-			//½øĞĞÊı¾İÖ¡½ÓÊÕ´¦Àí£¬ÇëÔÚ´Ë¸ù¾İĞ­ÒéĞŞ¸Ä»òÌí¼Ó´úÂë
-			//ÒÔÏÂ13ĞĞ´úÂëÖ»ÊÇÓÃÓÚ²âÊÔ£¬ÄãĞèÒª¸ù¾İĞ­Òé½øĞĞĞŞ¸Ä
+			//è¿›è¡Œæ•°æ®å¸§æ¥æ”¶å¤„ç†ï¼Œè¯·åœ¨æ­¤æ ¹æ®åè®®ä¿®æ”¹æˆ–æ·»åŠ ä»£ç 
+			//ä»¥ä¸‹13è¡Œä»£ç åªæ˜¯ç”¨äºæµ‹è¯•ï¼Œä½ éœ€è¦æ ¹æ®åè®®è¿›è¡Œä¿®æ”¹
 			//*****************************************************************************
 			char ReceData[100];
 			int Length;
 			char check;
 			char ctrl[3];
-			Length=PhysicalLayerReceive(ReceData);							//ÎïÀí²ã£º½ÓÊÕÒ»¸ö×Ö½Ú
-			if(ReceData[0]==0x7E){											//Èç¹û¼ì²âµ½Ö¡Í·£¬ÔÙ½ÓÊÕºóĞø×Ö½Ú
-				Sleep(50);													//ÓµÈû¿ØÖÆ
-				for(int i=0;i<3;i++){										//½«ÊÕµ½µÄÊı¾İ´æÈëBuffer[]ÖĞ
+			Length=PhysicalLayerReceive(ReceData);							//ç‰©ç†å±‚ï¼šæ¥æ”¶ä¸€ä¸ªå­—èŠ‚
+			if(ReceData[0]==0x7E){											//å¦‚æœæ£€æµ‹åˆ°å¸§å¤´ï¼Œå†æ¥æ”¶åç»­å­—èŠ‚
+				Sleep(50);													//æ‹¥å¡æ§åˆ¶
+				for(int i=0;i<3;i++){										//å°†æ”¶åˆ°çš„æ•°æ®å­˜å…¥Buffer[]ä¸­
 					PhysicalLayerReceive(ReceData);
 					Buffer[i]=ReceData[0];
 				}
-				check=Parity_Check(&Buffer[2]);								//ÆæĞ£Ñé£¬´æÈëcheck
+				check=Parity_Check(&Buffer[2]);								//å¥‡æ ¡éªŒï¼Œå­˜å…¥check
 				char DisplayBufffer[250];
-				if(check==Buffer[0]){										//ÆæĞ£ÑéÍ¨¹ı
+				if(check==Buffer[0]){										//å¥‡æ ¡éªŒé€šè¿‡
 					cnt1++;
 					DataB[0]=Buffer[2];
 					DataB[1]=0;
 					wsprintf(DisplayBufffer,"%02XH",(unsigned char)DataB[0]);
-					Puts(hW,INFOWin1,DisplayBufffer);						//ÏÔÊ¾£¬ÎïÀí²ãÊÕµ½µÄĞÅÏ¢
-					DataB[0]=(DataB[0]&0x0F)+0x30;							//È¥µô¸ß4Î»ÄÚÈİ,µÍ4Î»×ªÎªASCIIÂë
-					Puts(hW,INFOWin2,DataB);								//ÏÔÊ¾£¬ÉÏ½»ÍøÂç²ãµÄĞÅÏ¢
+					Puts(hW,INFOWin1,DisplayBufffer);						//æ˜¾ç¤ºï¼Œç‰©ç†å±‚æ”¶åˆ°çš„ä¿¡æ¯
+					DataB[0]=(DataB[0]&0x0F)+0x30;							//å»æ‰é«˜4ä½å†…å®¹,ä½4ä½è½¬ä¸ºASCIIç 
+					Puts(hW,INFOWin2,DataB);								//æ˜¾ç¤ºï¼Œä¸Šäº¤ç½‘ç»œå±‚çš„ä¿¡æ¯
 					ctrl[0]=0x88;											//ACK=0x88
 					PhysicalLayerSend(&ctrl[0],1);
 				}
 				else if(check!=Buffer[0]){ 
 					wsprintf(DisplayBufffer,"%02XH",(unsigned char)DataB[0]);
-					Puts(hW,INFOWin1,DisplayBufffer);						//ÏÔÊ¾£¬ÎïÀí²ãÊÕµ½µÄĞÅÏ¢
-					char error[6]="error";									//ÏÔÊ¾£¬errorĞÅÏ¢
+					Puts(hW,INFOWin1,DisplayBufffer);						//æ˜¾ç¤ºï¼Œç‰©ç†å±‚æ”¶åˆ°çš„ä¿¡æ¯
+					char error[6]="error";									//æ˜¾ç¤ºï¼Œerrorä¿¡æ¯
 					Puts(hW,INFOWin2,error);	
 					char SendData[100];
 					ctrl[0]=0x55;											//NAK=0x55
@@ -254,13 +254,13 @@ LRESULT CALLBACK WndProc(HWND hW, UINT msg, WPARAM wP, LPARAM lP)
 		}
 		break;
 //============================================================================
-	case WM_COMMAND://°´Å¥ÃüÁîÏûÏ¢´¦Àí
+	case WM_COMMAND://æŒ‰é’®å‘½ä»¤æ¶ˆæ¯å¤„ç†
 		switch(wP)
 		{
-		case BTN_Quit:												//ÍË³ö³ÌĞò
+		case BTN_Quit:												//é€€å‡ºç¨‹åº
 			PostQuitMessage(0);
 			break;
-		case BTN_Reset:												//Çå³ıĞÅÏ¢¿òÄÚÈİ
+		case BTN_Reset:												//æ¸…é™¤ä¿¡æ¯æ¡†å†…å®¹
 			SetDlgItemText(hW,INFOWin1,(LPSTR) " ");
 			SetDlgItemText(hW,INFOWin2,(LPSTR) " ");
 			break;
@@ -270,7 +270,7 @@ LRESULT CALLBACK WndProc(HWND hW, UINT msg, WPARAM wP, LPARAM lP)
 }
 
 //--------------------------------------------------------------
-void PhysicalLayerSend(char* FrameData, int Length)					//ÎïÀí²ã£º·¢ËÍÒ»Ö¡±¨ÎÄ
+void PhysicalLayerSend(char* FrameData, int Length)					//ç‰©ç†å±‚ï¼šå‘é€ä¸€å¸§æŠ¥æ–‡
 {
 	int CS2A_Length;
 	CS2A_Length = sizeof(Cs2A);
@@ -278,7 +278,7 @@ void PhysicalLayerSend(char* FrameData, int Length)					//ÎïÀí²ã£º·¢ËÍÒ»Ö¡±¨ÎÄ
 }
 
 //--------------------------------------------------------------
-int PhysicalLayerReceive(char* FrameData)							//ÎïÀí²ã£º½ÓÊÕÒ»Ö¡±¨ÎÄ£¬·µ»ØÊı¾İ³¤¶È
+int PhysicalLayerReceive(char* FrameData)							//ç‰©ç†å±‚ï¼šæ¥æ”¶ä¸€å¸§æŠ¥æ–‡ï¼Œè¿”å›æ•°æ®é•¿åº¦
 {	
 	int Length;
 	int CS2A_Length;
